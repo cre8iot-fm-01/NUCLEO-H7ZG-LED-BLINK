@@ -64,6 +64,12 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/**
+ * @brief  A simple printf function to send formatted strings to COM1 port.
+ * @param  format: The format string (like in standard printf).
+ * @param  ...: Additional arguments for formatting.
+ * @retval None
+ */
 void debug_printf(const char *format, ...) {
   char buffer[128]; // Adjust size as needed
   va_list args;
