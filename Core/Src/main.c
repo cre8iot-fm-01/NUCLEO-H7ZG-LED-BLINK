@@ -62,7 +62,15 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void debug_printf(const char *format, ...) {
+  char buffer[128]; // Adjust size as needed
+  va_list args;
+  va_start(args, format);
+  vsnprintf(buffer, sizeof(buffer), format, args);
+  va_end(args);
+  // Send the formatted string to COM1 port
+  BSP_COM_Transmit(COM1, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+}
 /* USER CODE END 0 */
 
 /**
@@ -123,7 +131,7 @@ int main(void)
   /* USER CODE BEGIN BSP */
 
   /* -- Sample board code to send message over COM1 port ---- */
-  printf("Welcome to STM32 world !\n\r");
+  debug_printf("Welcome to STM32 world !\r\n");
 
   /* -- Sample board code to switch on leds ---- */
   BSP_LED_On(LED_GREEN);
@@ -142,6 +150,7 @@ int main(void)
       BSP_LED_Toggle(LED_YELLOW);
       BSP_LED_Toggle(LED_RED);
       lastBlinkTick = now;
+      debug_printf("led is blinking every %ums\r\n", BLINK_INTERVAL_MS);
     }
     // ...existing code...
     /* USER CODE END WHILE */
