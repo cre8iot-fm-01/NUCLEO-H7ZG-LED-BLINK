@@ -46,6 +46,10 @@ __IO uint32_t BspButtonState = BUTTON_RELEASED;
 
 /* USER CODE BEGIN PV */
 
+// Non-blocking LED blink variables
+uint32_t lastBlinkTick = 0;
+#define BLINK_INTERVAL_MS 500
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -132,11 +136,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // Simple blink all 3 LEDs
-    BSP_LED_Toggle(LED_GREEN);
-    BSP_LED_Toggle(LED_YELLOW);
-    BSP_LED_Toggle(LED_RED);
-    HAL_Delay(500); // 500 ms delay
+    uint32_t now = HAL_GetTick();
+    if ((now - lastBlinkTick) >= BLINK_INTERVAL_MS) {
+      BSP_LED_Toggle(LED_GREEN);
+      BSP_LED_Toggle(LED_YELLOW);
+      BSP_LED_Toggle(LED_RED);
+      lastBlinkTick = now;
+    }
+    // ...existing code...
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
