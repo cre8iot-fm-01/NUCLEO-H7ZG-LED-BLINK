@@ -21,7 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,7 +71,7 @@ void debug_printf(const char *format, ...) {
   vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
   // Send the formatted string to COM1 port
-  BSP_COM_Transmit(COM1, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+  printf("%s", buffer); // Assuming printf is retargeted to COM1
 }
 /* USER CODE END 0 */
 
